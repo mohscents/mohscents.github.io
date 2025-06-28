@@ -19,11 +19,9 @@
       --accent: #ffc107;
       --card: #2b2b2b;
     }
-
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       background: var(--bg);
@@ -32,23 +30,19 @@
       padding: 1rem;
       transition: var(--transition);
     }
-
     header {
       text-align: center;
       margin-bottom: 2rem;
       animation: fadeIn 1s ease;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     h1 {
       color: var(--accent);
       font-size: 2.5rem;
     }
-
     .dark-mode-toggle {
       position: fixed;
       top: 20px;
@@ -61,11 +55,28 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
     .dark-mode-toggle:hover {
       opacity: 0.85;
     }
-
+    .categories-nav {
+      text-align: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .category-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+    .category-btn:hover {
+      background: #a36b46;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -74,7 +85,6 @@
       margin: auto;
       padding: 0 1rem;
     }
-
     .card {
       background: var(--card);
       border-radius: 12px;
@@ -85,40 +95,33 @@
       opacity: 0;
       animation: slideUp 0.5s ease forwards;
     }
-
     @keyframes slideUp {
       to {
         transform: translateY(0);
         opacity: 1;
       }
     }
-
     .card:hover {
       transform: scale(1.03);
     }
-
     .card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
       cursor: pointer;
     }
-
     .info {
       padding: 1rem;
       text-align: center;
     }
-
     .info h2 {
       margin: 0.5rem 0;
       font-size: 1.3rem;
     }
-
     .info p {
       margin: 0.3rem 0;
       font-size: 0.95rem;
     }
-
     .btn {
       display: inline-block;
       margin-top: 0.8rem;
@@ -131,11 +134,9 @@
       font-size: 0.9rem;
       transition: var(--transition);
     }
-
     .btn:hover {
       opacity: 0.9;
     }
-
     .lightbox {
       display: none;
       position: fixed;
@@ -146,23 +147,19 @@
       align-items: center;
       z-index: 1000;
     }
-
     .lightbox img {
       max-width: 90%;
       max-height: 90%;
       border-radius: 10px;
       animation: zoomIn 0.4s ease;
     }
-
     @keyframes zoomIn {
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
-
     .lightbox.active {
       display: flex;
     }
-
     .contact-float {
       position: fixed;
       bottom: 20px;
@@ -177,7 +174,6 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.3);
       transition: var(--transition);
     }
-
     .contact-float:hover {
       transform: scale(1.1);
     }
@@ -185,50 +181,80 @@
 </head>
 <body>
   <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌓</button>
-
   <header>
     <h1>🕯️ MOH SCENTS</h1>
     <p>Handmade eco-friendly soy candles</p>
     <p>📍 Soibari, Tezpur, Assam — <a href="https://instagram.com/mohscents_" target="_blank">@mohscents_</a></p>
   </header>
-
+  <div class="categories-nav" id="category-nav"></div>
   <main class="grid" id="catalog"></main>
-
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <img id="lightbox-img" src="" alt="Zoomed Image" />
   </div>
-
   <a class="contact-float" href="tel:8936934679" title="Call us">📞</a>
-
   <script>
-    const products = [
-      { img: "IMG-20250626-WA0003.jpg", name: "Blue Rose Candle", price: "₹199", desc: "Floral-shaped scented candle" },
-      { img: "IMG-20250626-WA0004.jpg", name: "Lavender Jar", price: "₹249", desc: "Soothing lavender in a jar" },
-      { img: "IMG-20250626-WA0005.jpg", name: "Festive Diya Set", price: "₹299", desc: "Traditional diya candles for festivals" },
-      { img: "IMG-20250626-WA0006.jpg", name: "Elegant Glass Pot", price: "₹349", desc: "Minimalistic fragrance decor" },
-      { img: "IMG-20250626-WA0007.jpg", name: "Color Duo Pack", price: "₹299", desc: "Set of two scented candles" },
-      { img: "IMG-20250626-WA0008.jpg", name: "Peach Blossom", price: "₹229", desc: "Refreshing fruity floral candle" }
-    ];
+    const categories = {
+      "Jar Candles": [
+        { img: "IMG-20250626-WA0004.jpg", name: "Lavender Jar", price: "₹249", desc: "Soothing lavender in a jar" }
+      ],
+      "Pillar Candles": [
+        { img: "IMG-20250626-WA0003.jpg", name: "Blue Rose Candle", price: "₹199", desc: "Floral-shaped scented candle" }
+      ],
+      "Tealight Candles": [
+        { img: "IMG-20250626-WA0005.jpg", name: "Festive Diya Set", price: "₹299", desc: "Traditional diya candles for festivals" }
+      ],
+      "Wax Melts": [
+        { img: "IMG-20250626-WA0008.jpg", name: "Peach Blossom", price: "₹229", desc: "Refreshing fruity floral candle" }
+      ],
+      "Decorative Candles": [
+        { img: "IMG-20250626-WA0006.jpg", name: "Elegant Glass Pot", price: "₹349", desc: "Minimalistic fragrance decor" }
+      ],
+      "Home Decor": [
+        { img: "IMG-20250626-WA0006.jpg", name: "Elegant Glass Pot", price: "₹349", desc: "Minimalistic fragrance decor" }
+      ],
+      "Customised": [
+        { img: "IMG-20250626-WA0007.jpg", name: "Color Duo Pack", price: "₹299", desc: "Set of two scented candles" }
+      ],
+      "Romantic Candles": [
+        { img: "IMG-20250626-WA0003.jpg", name: "Blue Rose Candle", price: "₹199", desc: "Floral-shaped scented candle" }
+      ],
+      "Gift Sets": [
+        { img: "IMG-20250626-WA0007.jpg", name: "Color Duo Pack", price: "₹299", desc: "Set of two scented candles" },
+        { img: "IMG-20250626-WA0005.jpg", name: "Festive Diya Set", price: "₹299", desc: "Traditional diya candles for festivals" }
+      ]
+    };
 
+    const nav = document.getElementById("category-nav");
     const catalog = document.getElementById("catalog");
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
 
-    products.forEach((p, index) => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.style.animationDelay = `${index * 100}ms`;
-      card.innerHTML = `
-        <img src="${p.img}" alt="${p.name}" onclick="openLightbox('${p.img}')">
-        <div class="info">
-          <h2>${p.name}</h2>
-          <p>${p.desc}</p>
-          <p><strong>${p.price}</strong></p>
-          <a class="btn" href="https://wa.me/918936934679?text=Hi%20MOH%20SCENTS%2C%20I%20want%20to%20buy%20${encodeURIComponent(p.name)}!" target="_blank">Buy on WhatsApp</a>
-        </div>
-      `;
-      catalog.appendChild(card);
+    Object.keys(categories).forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = "category-btn";
+      btn.textContent = cat;
+      btn.onclick = () => displayProducts(cat);
+      nav.appendChild(btn);
     });
+
+    function displayProducts(category) {
+      catalog.innerHTML = "";
+      categories[category].forEach((p, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.animationDelay = `${index * 100}ms`;
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.name}" onclick="openLightbox('${p.img}')">
+          <div class="info">
+            <h2>${p.name}</h2>
+            <p>${p.desc}</p>
+            <p><strong>${p.price}</strong></p>
+            <a class="btn" href="https://wa.me/918936934679?text=Hi%20MOH%20SCENTS%2C%20I%20want%20to%20buy%20${encodeURIComponent(p.name)}!" target="_blank">Buy on WhatsApp</a>
+          </div>
+        `;
+        catalog.appendChild(card);
+      });
+    }
 
     function openLightbox(src) {
       lightboxImg.src = src;
@@ -242,6 +268,8 @@
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
     }
+
+    displayProducts("Jar Candles");
   </script>
 </body>
 </html>
