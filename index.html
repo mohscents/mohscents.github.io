@@ -177,6 +177,25 @@
     .contact-float:hover {
       transform: scale(1.1);
     }
+    .empty-message {
+      text-align: center;
+      font-size: 1.6rem;
+      color: var(--text);
+      padding: 4rem 2rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInCenter 0.8s ease-out forwards;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    @keyframes fadeInCenter {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -186,42 +205,29 @@
     <p>Handmade eco-friendly soy candles</p>
     <p>📍 Soibari, Tezpur, Assam — <a href="https://instagram.com/mohscents_" target="_blank">@mohscents_</a></p>
   </header>
+
   <div class="categories-nav" id="category-nav"></div>
   <main class="grid" id="catalog"></main>
+
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <img id="lightbox-img" src="" alt="Zoomed Image" />
   </div>
+
   <a class="contact-float" href="tel:8936934679" title="Call us">📞</a>
+
   <script>
     const categories = {
       "Jar Candles": [
-        { img: "IMG-20250626-WA0004.jpg", name: "Lavender Jar", price: "₹249", desc: "Soothing lavender in a jar" }
+        { img: "IMG-20250626-WA0004.jpg", name: "Lavender Jar", desc: "Soothing lavender in a jar" }
       ],
-      "Pillar Candles": [
-        { img: "IMG-20250626-WA0003.jpg", name: "Blue Rose Candle", price: "₹199", desc: "Floral-shaped scented candle" }
-      ],
-      "Tealight Candles": [
-        { img: "IMG-20250626-WA0005.jpg", name: "Festive Diya Set", price: "₹299", desc: "Traditional diya candles for festivals" }
-      ],
-      "Wax Melts": [
-        { img: "IMG-20250626-WA0008.jpg", name: "Peach Blossom", price: "₹229", desc: "Refreshing fruity floral candle" }
-      ],
-      "Decorative Candles": [
-        { img: "IMG-20250626-WA0006.jpg", name: "Elegant Glass Pot", price: "₹349", desc: "Minimalistic fragrance decor" }
-      ],
-      "Home Decor": [
-        { img: "IMG-20250626-WA0006.jpg", name: "Elegant Glass Pot", price: "₹349", desc: "Minimalistic fragrance decor" }
-      ],
-      "Customised": [
-        { img: "IMG-20250626-WA0007.jpg", name: "Color Duo Pack", price: "₹299", desc: "Set of two scented candles" }
-      ],
-      "Romantic Candles": [
-        { img: "IMG-20250626-WA0003.jpg", name: "Blue Rose Candle", price: "₹199", desc: "Floral-shaped scented candle" }
-      ],
-      "Gift Sets": [
-        { img: "IMG-20250626-WA0007.jpg", name: "Color Duo Pack", price: "₹299", desc: "Set of two scented candles" },
-        { img: "IMG-20250626-WA0005.jpg", name: "Festive Diya Set", price: "₹299", desc: "Traditional diya candles for festivals" }
-      ]
+      "Pillar Candles": [],
+      "Tealight Candles": [],
+      "Wax Melts": [],
+      "Decorative Candles": [],
+      "Home Decor": [],
+      "Customised": [],
+      "Romantic Candles": [],
+      "Gift Sets": []
     };
 
     const nav = document.getElementById("category-nav");
@@ -239,7 +245,16 @@
 
     function displayProducts(category) {
       catalog.innerHTML = "";
-      categories[category].forEach((p, index) => {
+      const items = categories[category];
+      if (!items.length) {
+        catalog.innerHTML = `<div class="empty-message">
+          Stay tuned! We will be bringing this for you soon.<br />
+          Thank you for giving us your support — MOH SCENTS.
+        </div>`;
+        return;
+      }
+
+      items.forEach((p, index) => {
         const card = document.createElement("div");
         card.className = "card";
         card.style.animationDelay = `${index * 100}ms`;
@@ -248,8 +263,8 @@
           <div class="info">
             <h2>${p.name}</h2>
             <p>${p.desc}</p>
-            <p><strong>${p.price}</strong></p>
-            <a class="btn" href="https://wa.me/918936934679?text=Hi%20MOH%20SCENTS%2C%20I%20want%20to%20buy%20${encodeURIComponent(p.name)}!" target="_blank">Buy on WhatsApp</a>
+            <p><strong>DM for prices</strong></p>
+            <a class="btn" href="https://wa.me/918936934679?text=Hi%20MOH%20SCENTS%2C%20I'm%20interested%20in%20${encodeURIComponent(p.name)}" target="_blank">Buy on WhatsApp</a>
           </div>
         `;
         catalog.appendChild(card);
@@ -269,6 +284,7 @@
       document.body.classList.toggle("dark");
     }
 
+    // Load first category
     displayProducts("Jar Candles");
   </script>
 </body>
