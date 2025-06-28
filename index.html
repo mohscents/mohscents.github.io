@@ -153,6 +153,13 @@
       border-radius: 10px;
       animation: zoomIn 0.4s ease;
     }
+    .grid.empty {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+    }
     @keyframes zoomIn {
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
@@ -255,36 +262,38 @@
     });
 
     function displayProducts(category) {
-      catalog.innerHTML = "";
-      const items = categories[category];
+  catalog.innerHTML = "";
+  const items = categories[category];
 
-      if (!items.length) {
-        catalog.innerHTML = `
-          <div class="empty-wrapper">
-            <div class="empty-message">
-              Stay tuned! We will be bringing this for you soon.<br/>
-              Thank you for giving us your support — <strong>MOH SCENTS</strong>.
-            </div>
-          </div>`;
-        return;
-      }
+  // Toggle empty class
+  catalog.classList.toggle("empty", items.length === 0);
 
-      items.forEach((p, index) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.style.animationDelay = `${index * 100}ms`;
-        card.innerHTML = `
-          <img src="${p.img}" alt="${p.name}" onclick="openLightbox('${p.img}')">
-          <div class="info">
-            <h2>${p.name}</h2>
-            <p>${p.desc}</p>
-            <p><strong>DM for prices</strong></p>
-            <a class="btn" href="https://wa.me/918936934679?text=Hi%20MOH%20SCENTS%2C%20I'm%20interested%20in%20${encodeURIComponent(p.name)}" target="_blank">Buy on WhatsApp</a>
-          </div>
-        `;
-        catalog.appendChild(card);
-      });
-    }
+  if (!items.length) {
+    catalog.innerHTML = `
+      <div class="empty-message">
+        Stay tuned! We will be bringing this for you soon.<br/>
+        Thank you for giving us your support — <strong>MOH SCENTS</strong>.
+      </div>`;
+    return;
+  }
+
+  items.forEach((p, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.animationDelay = `${index * 100}ms`;
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.name}" onclick="openLightbox('${p.img}')">
+      <div class="info">
+        <h2>${p.name}</h2>
+        <p>${p.desc}</p>
+        <p><strong>DM for prices</strong></p>
+        <a class="btn" href="https://wa.me/918936934679?text=Hi%20MOH%20SCENTS%2C%20I'm%20interested%20in%20${encodeURIComponent(p.name)}" target="_blank">Buy on WhatsApp</a>
+      </div>
+    `;
+    catalog.appendChild(card);
+  });
+}
+
 
     function openLightbox(src) {
       lightboxImg.src = src;
