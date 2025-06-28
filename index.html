@@ -178,12 +178,13 @@
       transform: scale(1.1);
     }
 
+    /* Central empty message */
     .empty-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 50vh;
-      padding: 2rem;
+      height: 60vh;
+      width: 100%;
     }
 
     .empty-message {
@@ -191,14 +192,16 @@
       font-size: 1.6rem;
       color: var(--text);
       font-weight: 600;
-      opacity: 0;
-      transform: translateY(20px);
       animation: fadeInCenter 0.8s ease-out forwards;
       max-width: 700px;
       line-height: 1.6;
     }
 
     @keyframes fadeInCenter {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
       to {
         opacity: 1;
         transform: translateY(0);
@@ -259,8 +262,8 @@
         catalog.innerHTML = `
           <div class="empty-wrapper">
             <div class="empty-message">
-              Stay tuned! We will be bringing this for you soon.<br />
-              Thank you for giving us your support — MOH SCENTS.
+              Stay tuned! We will be bringing this for you soon.<br/>
+              Thank you for giving us your support — <strong>MOH SCENTS</strong>.
             </div>
           </div>`;
         return;
