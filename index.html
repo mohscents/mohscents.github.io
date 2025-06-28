@@ -4,12 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MOH SCENTS - Candle Catalog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #fffef9;
       --text: #2c2c2c;
-      --accent: #4b2e2e;
+      --accent: #c08457;
       --card: #ffffff;
+      --transition: all 0.3s ease-in-out;
     }
     body.dark {
       --bg: #1a1a1a;
@@ -18,54 +20,81 @@
       --card: #2b2b2b;
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Quicksand', sans-serif;
       padding: 1rem;
+      transition: var(--transition);
     }
 
     header {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
       color: var(--accent);
-      margin-bottom: 0.3rem;
+      font-size: 2.5rem;
     }
 
     .dark-mode-toggle {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 6px 12px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 14px;
       background: var(--accent);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dark-mode-toggle:hover {
+      opacity: 0.85;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 1.5rem;
-      max-width: 1200px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+      max-width: 1300px;
       margin: auto;
+      padding: 0 1rem;
     }
 
     .card {
       background: var(--card);
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       overflow: hidden;
-      transition: transform 0.2s ease;
+      transition: var(--transition);
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideUp 0.5s ease forwards;
+    }
+
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .card:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
 
     .card img {
@@ -76,29 +105,35 @@
     }
 
     .info {
-      padding: 0.8rem;
+      padding: 1rem;
+      text-align: center;
     }
 
     .info h2 {
-      margin: 0.4rem 0;
-      font-size: 1.2rem;
+      margin: 0.5rem 0;
+      font-size: 1.3rem;
     }
 
     .info p {
-      margin: 0.2rem 0;
+      margin: 0.3rem 0;
       font-size: 0.95rem;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 0.6rem;
+      margin-top: 0.8rem;
       background-color: var(--accent);
       color: white;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border: none;
       border-radius: 6px;
       text-decoration: none;
       font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
     }
 
     .lightbox {
@@ -106,7 +141,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
+      background-color: rgba(0, 0, 0, 0.9);
       justify-content: center;
       align-items: center;
       z-index: 1000;
@@ -116,6 +151,12 @@
       max-width: 90%;
       max-height: 90%;
       border-radius: 10px;
+      animation: zoomIn 0.4s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     .lightbox.active {
@@ -128,17 +169,21 @@
       right: 20px;
       background-color: var(--accent);
       color: white;
-      padding: 12px;
+      padding: 14px;
       border-radius: 50%;
-      font-size: 20px;
+      font-size: 24px;
       text-decoration: none;
       z-index: 1001;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      transition: var(--transition);
+    }
+
+    .contact-float:hover {
+      transform: scale(1.1);
     }
   </style>
 </head>
 <body>
-
   <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌓</button>
 
   <header>
@@ -157,52 +202,22 @@
 
   <script>
     const products = [
-      {
-        img: "IMG-20250626-WA0003.jpg",
-        name: "Blue Rose Candle",
-        price: "₹199",
-        desc: "Floral-shaped scented candle"
-      },
-      {
-        img: "IMG-20250626-WA0004.jpg",
-        name: "Lavender Jar",
-        price: "₹249",
-        desc: "Soothing lavender in a jar"
-      },
-      {
-        img: "IMG-20250626-WA0005.jpg",
-        name: "Festive Diya Set",
-        price: "₹299",
-        desc: "Traditional diya candles for festivals"
-      },
-      {
-        img: "IMG-20250626-WA0006.jpg",
-        name: "Elegant Glass Pot",
-        price: "₹349",
-        desc: "Minimalistic fragrance decor"
-      },
-      {
-        img: "IMG-20250626-WA0007.jpg",
-        name: "Color Duo Pack",
-        price: "₹299",
-        desc: "Set of two scented candles"
-      },
-      {
-        img: "IMG-20250626-WA0008.jpg",
-        name: "Peach Blossom",
-        price: "₹229",
-        desc: "Refreshing fruity floral candle"
-      }
-      // Add more if needed...
+      { img: "IMG-20250626-WA0003.jpg", name: "Blue Rose Candle", price: "₹199", desc: "Floral-shaped scented candle" },
+      { img: "IMG-20250626-WA0004.jpg", name: "Lavender Jar", price: "₹249", desc: "Soothing lavender in a jar" },
+      { img: "IMG-20250626-WA0005.jpg", name: "Festive Diya Set", price: "₹299", desc: "Traditional diya candles for festivals" },
+      { img: "IMG-20250626-WA0006.jpg", name: "Elegant Glass Pot", price: "₹349", desc: "Minimalistic fragrance decor" },
+      { img: "IMG-20250626-WA0007.jpg", name: "Color Duo Pack", price: "₹299", desc: "Set of two scented candles" },
+      { img: "IMG-20250626-WA0008.jpg", name: "Peach Blossom", price: "₹229", desc: "Refreshing fruity floral candle" }
     ];
 
     const catalog = document.getElementById("catalog");
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
 
-    products.forEach(p => {
+    products.forEach((p, index) => {
       const card = document.createElement("div");
       card.className = "card";
+      card.style.animationDelay = `${index * 100}ms`;
       card.innerHTML = `
         <img src="${p.img}" alt="${p.name}" onclick="openLightbox('${p.img}')">
         <div class="info">
